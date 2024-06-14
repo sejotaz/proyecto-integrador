@@ -1,27 +1,27 @@
-import React from "react";
-import LoginForm from "../components/LoginForm";
+import React from 'react'
+import LoginForm from '../components/LoginForm'
 
 function LoginContainer() {
   return (
-    <div className='flex w-screen h-screen  bg-opacity-50'>
-
-      <div className='flex w-1/2 items-center justify-center bg-[#0f3443] text-white'>
+    <div className='flex w-screen    bg-opacity-50 h-[calc(100vh-72px)] '>
+      <div className='flex w-1/2 items-center justify-center bg-[#171923] text-white'>
         <div className='space-y-8'>
           <div className='flex items-center justify-center'>
-            <p>LOGO</p>
-            <span className='ml-2 text-2xl font-bold'>YOUR LOGO</span>
+            <span className='ml-2 text-2xl font-bold'>ACEME STORE</span>
           </div>
-          <h2 className='text-4xl font-bold'>Hello, welcome!</h2>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus
-            nisi risus.
-          </p>
+          <h2 className='text-4xl font-bold'>Hello, ¡bienvenido!</h2>
+          <div className='w-[500px]'>
+            Una plataforma en línea dedicada exclusivamente a la compra de
+            instrumentos musicales. Ofrece una amplia variedad de instrumentos,
+            desde guitarras y pianos hasta baterías y violines, con opciones
+            tanto para principiantes como para profesionales.
+          </div>
         </div>
       </div>
 
-     <LoginForm/>
+      <LoginForm />
     </div>
   )
 }
 
-export default LoginContainer;
+export default LoginContainer

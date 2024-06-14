@@ -1,49 +1,23 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext, useEffect, useState } from 'react'
+import { Router, useLocation, useNavigate, useParams, useRoutes, useSearchParams } from 'react-router-dom'
+import { useProducts } from '../hooks/useProducts'
+import { AppContext } from '../context/AppContext'
 
 function Products() {
-  const navigate = useNavigate()
-
-  const initialValues = {
-    id: '',
-    img: '',
-    price:0,
-    name_product: '',
-    quantity:0,
-  }
-
-  const [products, setProducts] = useState(initialValues)
-
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setProducts((prevProduct) => ({
-      ...prevProduct,
-      [name]: value,
-    }))
-  }
-
-  const handleSubmitProduct = async (e) => {
-    e.preventDefault()
-const dataProdut = JSON.stringify(products)
+  const { id } = useParams()
+  const { userInfo } = useContext(AppContext)
  
-    try {
-      const response = await fetch('http://127.0.0.1:8000/products/create', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: dataProdut,
-      })
-
-      const dataResponse = await response.json()
-      navigate('/')
-    } catch (e) {
-      console.log('ERROR', e)
-    }
+  const navigate = useNavigate()
+ 
+  const { products, handleChange, filterProduct, handleSubmitProduct } =useProducts({ id })
+useEffect(() => {
+ if (!userInfo) {
+    navigate('/')
   }
+}, [userInfo]);
 
   return (
-    <div className='flex justify-center items-center   flex-col min-h-screen w-screen'>
+    <div className='flex justify-center items-center     flex-col h-[calc(100vh-72px)]  w-screen'>
       <div className='flex w-11/12 md:w-1/2 lg:w-1/3 items-center justify-center border border-gray-300 rounded-xl bg-white p-8 shadow-lg'>
         <form className='w-full space-y-6' onSubmit={handleSubmitProduct}>
           <h1 className='text-3xl text-gray-800 font-bold mb-6 text-center'>
@@ -103,6 +77,7 @@ const dataProdut = JSON.stringify(products)
                 className='w-20 rounded-md border border-gray-300 bg-gray-50 text-black px-3 py-2 text-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2'
                 type='number'
                 name='quantity'
+                min='1'
                 value={products.quantity}
                 onChange={handleChange}
                 placeholder='2'
@@ -110,11 +85,21 @@ const dataProdut = JSON.stringify(products)
             </div>
           </div>
           <div className='flex items-center space-x-4'>
+         
+           
             <button
               type='submit'
-              className='inline-flex items-center justify-center whitespace-nowrap rounded-md  text-white text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2  h-10 px-4 py-2'
+              className='inline-flex items-center bg-black justify-center  whitespace-nowrap rounded-md  text-white text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2  h-10 px-4 py-2'
             >
-              Agregar Producto
+              {filterProduct?.id ? 'Actualizar producto' : 'Agregar producto'}
+            </button>
+
+            <button
+            type='reset'
+              onClick={()=>navigate("/")}
+              className='  items-center border justify-center  whitespace-nowrap rounded-md   text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2  h-10 px-4 py-2'
+            >
+              Cancel
             </button>
           </div>
         </form>
